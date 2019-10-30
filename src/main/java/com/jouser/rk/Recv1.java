@@ -30,7 +30,7 @@ public class Recv1 {
 
         channel.queueDeclare(QUEUE_NAME, false, false, false, null);
 
-//        channel.basicQos(1);
+        channel.basicQos(1);
 
         // 绑定队列到交换机
         channel.queueBind(QUEUE_NAME, EXCHANGE_NAME, "black");
@@ -38,8 +38,9 @@ public class Recv1 {
         DeliverCallback deliverCallback = (consumerTag, delivery) -> {
             String message = new String(delivery.getBody(), StandardCharsets.UTF_8);
             System.out.println(" [x] Received '" + message + "'");
+            channel.basicAck(delivery.getEnvelope().getDeliveryTag(), false);
         };
 
-        channel.basicConsume(QUEUE_NAME, true, deliverCallback, consumerTag -> { });
+        channel.basicConsume(QUEUE_NAME, false, deliverCallback, consumerTag -> { });
     }
 }

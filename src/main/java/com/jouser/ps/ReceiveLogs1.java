@@ -38,6 +38,6 @@ public class ReceiveLogs1 {
             System.out.println(" [x] Received '" + message + "'");
         };
 
-        channel.basicConsume(QUEUE_NAME, false, deliverCallback, consumerTag -> { });
+        channel.basicConsume(QUEUE_NAME, true, deliverCallback, consumerTag -> { });
     }
 }

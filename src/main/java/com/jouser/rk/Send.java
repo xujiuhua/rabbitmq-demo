@@ -26,7 +26,7 @@ public class Send {
 
         channel.exchangeDeclare(EXCHANGE_NAME, "direct");
 
-        String routingKey = "black";
+        String routingKey = "white";
 
         String message = "hello rabbit mq";
 
