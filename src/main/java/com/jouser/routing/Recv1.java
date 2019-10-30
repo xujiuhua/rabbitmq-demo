@@ -1,4 +1,4 @@
-package com.jouser.rk;
+package com.jouser.routing;
 
 import com.jouser.util.ConnUtil;
 import com.rabbitmq.client.Channel;
