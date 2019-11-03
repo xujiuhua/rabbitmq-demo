@@ -26,7 +26,6 @@ public class NewTask {
 
         channel.queueDeclare(QUEUE_NAME, false, false, false, null);
 
-
         for (int i = 0; i < 50; i++) {
             String message = "work " + i;
             System.out.println(" [x] Sent '" + message + "'");
