@@ -1,4 +1,4 @@
-package com.jouser.ps;
+package com.jouser.subscribe;
 
 import com.jouser.util.ConnUtil;
 import com.rabbitmq.client.Channel;
@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.util.concurrent.TimeoutException;
 
 /**
- * <p></p>
+ * <p>发布订阅</p>
  *
  * @author jiuhua.xu
  * @version 1.0

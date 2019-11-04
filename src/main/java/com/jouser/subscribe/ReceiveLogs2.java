@@ -1,4 +1,4 @@
-package com.jouser.ps;
+package com.jouser.subscribe;
 
 import com.jouser.util.ConnUtil;
 import com.rabbitmq.client.Channel;
