@@ -15,7 +15,7 @@ import java.util.function.BooleanSupplier;
 
 /**
  * <p>
- *     https://github.com/rabbitmq/rabbitmq-tutorials/blob/master/java/PublisherConfirms.java
+ * https://github.com/rabbitmq/rabbitmq-tutorials/blob/master/java/PublisherConfirms.java
  * </p>
  *
  * @author jiuhua.xu
@@ -24,11 +24,11 @@ import java.util.function.BooleanSupplier;
  */
 public class PublisherConfirms {
 
-    static final int MESSAGE_COUNT = 50_000;
+    static final int MESSAGE_COUNT = 1_000;
 
     public static void main(String[] args) throws Exception {
-        publishMessagesIndividually();
-        publishMessagesInBatch();
+//        publishMessagesIndividually();
+//        publishMessagesInBatch();
         handlePublishConfirmsAsynchronously();
 
     }
@@ -36,7 +36,7 @@ public class PublisherConfirms {
     static void publishMessagesIndividually() throws Exception {
         Connection conn = ConnUtil.getConn();
         Channel channel = conn.createChannel();
-        String queue = UUID.randomUUID().toString() + "_confirm";
+        String queue = "individually_confirm";
         channel.queueDeclare(queue, false, false, false, null);
 
         // Enabling Publisher Confirms on a Channel
@@ -83,6 +83,15 @@ public class PublisherConfirms {
         System.out.format("Published %,d messages in batch in %,d ms%n", MESSAGE_COUNT, Duration.ofNanos(end - start).toMillis());
     }
 
+    /**
+     * channel.addConfirmListener((sequenceNumber, multiple) -> {
+     * // code when message is confirmed
+     * }, (sequenceNumber, multiple) -> {
+     * // code when message is nack-ed
+     * });
+     *
+     * @throws Exception
+     */
     static void handlePublishConfirmsAsynchronously() throws Exception {
         Connection conn = ConnUtil.getConn();
         Channel channel = conn.createChannel();
@@ -94,7 +103,9 @@ public class PublisherConfirms {
 
         ConcurrentNavigableMap<Long, String> outstandingConfirms = new ConcurrentSkipListMap<>();
 
+
         ConfirmCallback cleanOutstandingConfirms = (sequenceNumber, multiple) -> {
+            System.out.println("confirmed: " + sequenceNumber);
             if (multiple) {
                 ConcurrentNavigableMap<Long, String> confirmed = outstandingConfirms.headMap(
                         sequenceNumber, true
@@ -106,6 +117,7 @@ public class PublisherConfirms {
         };
 
         channel.addConfirmListener(cleanOutstandingConfirms, (sequenceNumber, multiple) -> {
+            System.out.println("nack-ed");
             String body = outstandingConfirms.get(sequenceNumber);
             System.err.format(
                     "Message with body %s has been nack-ed. Sequence number: %d, multiple: %b%n",

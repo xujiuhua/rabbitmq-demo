@@ -18,13 +18,13 @@ public class Send {
 
     private static final String EXCHANGE_NAME = "test_exchange_topic";
 
-    public static void main(String[] args) throws IOException, TimeoutException {
+    public static void main(String[] args) throws IOException, TimeoutException, InterruptedException {
 
         Connection conn = ConnUtil.getConn();
 
         final Channel channel = conn.createChannel();
 
-        channel.exchangeDeclare(EXCHANGE_NAME, "topic");
+        channel.exchangeDeclare(EXCHANGE_NAME, "topic", true);
 
         String routingKey = "goods.add";
 

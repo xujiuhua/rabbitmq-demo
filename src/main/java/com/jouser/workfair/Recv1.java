@@ -23,7 +23,7 @@ public class Recv1 {
 
         final Channel channel = connection.createChannel();
 
-        channel.queueDeclare(TASK_QUEUE_NAME, false, false, false, null);
+        channel.queueDeclare(TASK_QUEUE_NAME, true, false, false, null);
 
         System.out.println(" [*] Waiting for messages. To exit press CTRL+C");
 
@@ -50,7 +50,8 @@ public class Recv1 {
 
     private static void doWork(String task) {
         try {
-            Thread.sleep(1000);
+            System.out.println("我已消费到: " + task);
+            Thread.sleep(10_000);
         } catch (InterruptedException _ignored) {
             Thread.currentThread().interrupt();
         }
