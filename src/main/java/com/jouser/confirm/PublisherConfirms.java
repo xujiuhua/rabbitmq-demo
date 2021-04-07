@@ -104,6 +104,7 @@ public class PublisherConfirms {
         ConcurrentNavigableMap<Long, String> outstandingConfirms = new ConcurrentSkipListMap<>();
 
 
+        // success
         ConfirmCallback cleanOutstandingConfirms = (sequenceNumber, multiple) -> {
             System.out.println("confirmed: " + sequenceNumber);
             if (multiple) {
@@ -117,6 +118,7 @@ public class PublisherConfirms {
         };
 
         channel.addConfirmListener(cleanOutstandingConfirms, (sequenceNumber, multiple) -> {
+            // fail
             System.out.println("nack-ed");
             String body = outstandingConfirms.get(sequenceNumber);
             System.err.format(

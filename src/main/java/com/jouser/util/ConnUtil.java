@@ -7,7 +7,9 @@ import java.io.IOException;
 import java.util.concurrent.TimeoutException;
 
 /**
- * <p></p>
+ * <p>
+ *     1.创建 /vhost_hello
+ * </p>
  *
  * @author jiuhua.xu
  * @version 1.0
@@ -17,11 +19,11 @@ public class ConnUtil {
 
     public static Connection getConn() throws IOException, TimeoutException {
         ConnectionFactory factory = new ConnectionFactory();
-        factory.setHost("10.211.55.17");
+        factory.setHost("127.0.0.1");
         factory.setPort(5672);
         factory.setVirtualHost("/vhost_hello");
-        factory.setUsername("full_access");
-        factory.setPassword("s3crEt");
+        factory.setUsername("guest");
+        factory.setPassword("guest");
         Connection connection = factory.newConnection();
         return connection;
     }
